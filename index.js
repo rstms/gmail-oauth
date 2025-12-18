@@ -33,10 +33,10 @@ function showResult(result) {
     hideElement("auth_controls");
     if (result.Success) {
         showElement("revoke_instructions");
-	showElement("reauth_button");
+        showElement("reauth_button");
     } else {
         hideElement("revoke_instructions");
-	hideElement("reauth_button");
+        hideElement("reauth_button");
     }
     showElement("auth_result");
 }
@@ -47,7 +47,7 @@ async function onWindowLoad() {
         document.getElementById("reset_button_select").addEventListener("click", resetPage);
         document.getElementById("reset_button_result").addEventListener("click", resetPage);
         document.getElementById("authenticate_button").addEventListener("click", requestAuthentication);
-	const title = "Gmail Authorization v" + version;
+        const title = "Gmail Authorization v" + version;
         document.getElementById("title_text").textContent = title;
         initElements();
         await updateUsernames();
@@ -79,7 +79,7 @@ async function updateUsernames() {
         const selectTitle = document.getElementById("username_title");
         const selectElement = document.getElementById("username_select");
         let usernames = await response.json();
-        const usernames = [];
+        // usernames = [];
         console.log("usernames:", usernames);
         if (usernames.length < 1) {
             hideElement("username_select");
