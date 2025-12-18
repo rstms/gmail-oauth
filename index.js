@@ -19,8 +19,8 @@ function showElement(elementId) {
 }
 
 function initElements() {
-    showElement("auth_controls");
     hideElement("auth_result");
+    showElement("auth_controls");
 }
 
 function resetPage() {
@@ -31,12 +31,14 @@ function resetPage() {
 function showResult(result) {
     document.getElementById("auth_result_text").textContent = JSON.stringify(result, null, 2);
     hideElement("auth_controls");
-    showElement("auth_result");
     if (result.Success) {
         showElement("revoke_instructions");
+	showElement("reauth_button");
     } else {
         hideElement("revoke_instructions");
+	hideElement("reauth_button");
     }
+    showElement("auth_result");
 }
 
 async function onWindowLoad() {
@@ -75,14 +77,12 @@ async function updateUsernames() {
         const response = await fetch(url);
         const selectTitle = document.getElementById("username_title");
         const selectElement = document.getElementById("username_select");
-        const usernames = await response.json();
-        //const usernames = [];
+        let usernames = await response.json();
+        const usernames = [];
         console.log("usernames:", usernames);
         if (usernames.length < 1) {
             hideElement("username_select");
             selectTitle.textContent = "No eligible usernames exist";
-            console.log("selectTitle:", selectTitle);
-            console.log("selectElement:", selectElement);
         } else {
             selectTitle.textContent = "Select a local account:";
             showElement("username_select");
