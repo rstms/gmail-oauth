@@ -37,7 +37,7 @@ function showResult(result) {
         hideElement("revoke_instructions");
         hideElement("reauth_button");
     }
-    showElement("control_group");
+    showElement("result_group");
     document.getElementById("auth_result_text").textContent = JSON.stringify(result, null, 2);
 }
 
