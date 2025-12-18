@@ -21,10 +21,6 @@ all: $(html) $(src) $(json_fmt) fix .fmt lint assets
 	jq . <$< >$<.parsed && mv $<.parsed $<
 	touch $@
 
-.updates: updates.json
-	jq . <$< >$<.parsed && mv $<.parsed $<
-	touch $@
-
 assets: exported/assets
 	rm -rf assets
 	mkdir assets
