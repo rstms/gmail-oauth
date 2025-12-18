@@ -4,7 +4,7 @@ const version = "0.0.18";
 
 function hideElement(elementId) {
     try {
-        document.getElementById(elementId).hidden = true;
+        document.getElementById(elementId).style.display = "block";
     } catch (e) {
         console.error(e);
     }
@@ -12,7 +12,7 @@ function hideElement(elementId) {
 
 function showElement(elementId) {
     try {
-        document.getElementById(elementId).hidden = false;
+        document.getElementById(elementId).style.display = "none";
     } catch (e) {
         console.error(e);
     }
