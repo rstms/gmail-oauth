@@ -47,7 +47,8 @@ async function onWindowLoad() {
         document.getElementById("reset_button_select").addEventListener("click", resetPage);
         document.getElementById("reset_button_result").addEventListener("click", resetPage);
         document.getElementById("authenticate_button").addEventListener("click", requestAuthentication);
-        document.title = "gmail-oauth v" + version;
+	const title = "Gmail Authorization v" + version;
+        document.getElementById("title_text").textContent = title;
         initElements();
         await updateUsernames();
         console.log("href:", window.location.href);
