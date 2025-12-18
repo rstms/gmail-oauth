@@ -46,7 +46,7 @@ async function onWindowLoad() {
         document.getElementById("reset_button_result").addEventListener("click", resetPage);
         document.getElementById("authenticate_button").addEventListener("click", requestAuthentication);
         document.title = "gmail-oauth v" + version;
-	initElements()
+        initElements();
         await updateUsernames();
         console.log("href:", window.location.href);
         const url = new URL(window.location.href);
