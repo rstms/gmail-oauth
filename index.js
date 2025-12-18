@@ -21,7 +21,6 @@ function showElement(elementId) {
 function initElements() {
     showElement("auth_controls");
     hideElement("auth_result");
-    hideElement("revoke_instructions");
 }
 
 function resetPage() {
@@ -47,6 +46,7 @@ async function onWindowLoad() {
         document.getElementById("reset_button_result").addEventListener("click", resetPage);
         document.getElementById("authenticate_button").addEventListener("click", requestAuthentication);
         document.title = "gmail-oauth v" + version;
+	initElements()
         await updateUsernames();
         console.log("href:", window.location.href);
         const url = new URL(window.location.href);
