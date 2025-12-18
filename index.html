@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Authorize gmail account</title>
+        <style>
+            .container {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            pre {
+                background-color: #f4f4f4;
+                padding: 10px;
+                border: 2px solid #000;
+                overflow-x: auto;
+                white-space: pre-wrap;
+            }
+            #all_controls {
+                border: 2px solid #000;
+                padding: 10px;
+            }
+            .username_controls {
+                width: 1fr;
+            }
+        </style>
+        <script type="module" src="./index.js"></script>
+        */
+    </head>
+    <body>
+        <h2>Gmail Authorization</h2>
+        A local <b>@mailcapsule.io</b> email account with a username beginning with 'gmail.' may be associated with a gmail address.<br />
+        To make this connection, enter the local account username, then use the 'Authorize with Google' button to select your gmail
+        account.<br />
+        The resulting process will connect the selected email account with a gmail account and authorize IMAP and SMTP connections.
+        <p>
+            This action grants the .mailcapsule.io servers permission to fetch incoming gmail and send outgoing gmail using a
+            persistent authorization token.
+        </p>
+
+        <p></p>
+        <div id="all_controls">
+            <div id="auth_controls" class="container">
+                <div class="username_controls">
+                    <h3 id="username_title">Select a local account:</h3>
+                    <select id="username_select"></select>
+                </div>
+                <div>
+                    <button id="auth_button" onclick="postAuthenticationRequest()">Authorize with Google</button>
+                    <button id="reset_button_select" onclick="resetPage()">Reset</button>
+                </div>
+            </div>
+            <div id="auth_result" style="display: none">
+                <h3>Result:</h3>
+                <pre id="auth_result_text"></pre>
+                <p></p>
+                <div id="revoke_instructions" style="display: none">
+                    To revoke this authorization: connect to your google account using a browser and choose "Account" -> "Third-party
+                    connections"
+                    <p></p>
+                </div>
+                <button id="reauth_button" onclick="authAgain()">Authorize another account</button>
+                <button id="reset_button_result" onclick="resetPage()">Reset</button>
+            </div>
+        </div>
+    </body>
+</html>
