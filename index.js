@@ -132,6 +132,7 @@ async function requestAuthentication() {
     }
 }
 window.onload = onWindowLoad;
-document.getElementById("reset_button").addEventListener("click", resetPage);
+document.getElementById("reset_button_select").addEventListener("click", resetPage);
+document.getElementById("reset_button_result").addEventListener("click", resetPage);
 document.getElementById("authenticate_button").addEventListener("click", requestAuthentication);
 document.title = "gmail-oauth v" + version;
