@@ -109,6 +109,8 @@ async function requestAuthorization(url, params) {
 
 async function requestAuthentication() {
     try {
+	const selectElement = document.getElementById("username_select");
+	console.log("selectElement:", selectElement);
         const response = await fetch("https://webmail.mailcapsule.io/oauth/authenticate/", {
             method: "POST",
             headers: {
