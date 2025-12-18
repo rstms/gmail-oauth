@@ -48,7 +48,7 @@ async function onWindowLoad() {
         document.getElementById("reset_button_result").addEventListener("click", resetPage);
         document.getElementById("reauth_button").addEventListener("click", resetPage);
         document.getElementById("authenticate_button").addEventListener("click", requestAuthentication);
-        document.getElementById("deauth_button").addEventListener("click", requestDeleteToken);
+        document.getElementById("deauth_button").addEventListener("click", requestForgetToken);
         const title = "Gmail Authorization v" + version;
         document.getElementById("title_text").textContent = title;
         initElements();
@@ -120,23 +120,23 @@ async function requestAuthorization(url, params) {
 
 async function requestAuthentication() {
     try {
-	const uri = "https://webmail.mailcapsule.io/oauth/authenticate/";
-	return await postAuthenticationRequest(uri, true);
+        const uri = "https://webmail.mailcapsule.io/oauth/authenticate/";
+        return await postAuthenticationRequest(uri, true);
     } catch (e) {
-        console.error("postAuthorizationRequest:", e);
+        console.error("requestAuthentication:", e);
     }
 }
 
 async function requestForgetToken() {
     try {
-	const uri = "https://webmail.mailcapsule.io/oauth/deauthenticate/";
-	return await postAuthenticationRequest(uri, false);
+        const uri = "https://webmail.mailcapsule.io/oauth/deauthenticate/";
+        return await postAuthenticationRequest(uri, false);
     } catch (e) {
-        console.error("postAuthorizationRequest:", e);
+        console.error("requestForgetToken:", e);
     }
 }
 
-async function requestAuthentication(uri, enableRedirect) {
+async function postAuthenticationRequest(uri, enableRedirect) {
     try {
         const selectElement = document.getElementById("username_select");
         console.log("selectElement:", selectElement);
