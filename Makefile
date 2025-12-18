@@ -69,4 +69,5 @@ distclean: clean
 	rm -f dist/*.xpi
 
 deploy:
+	@$(gitclean)
 	ssh capsule update-gmail-oauth

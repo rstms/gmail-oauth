@@ -24,6 +24,9 @@
             .username_controls {
                 width: 1fr;
             }
+	    .button_bar {
+		margin: 10 0 0 0px;
+	    }
         </style>
         <script type="module" src="./index.js"></script>
     </head>
@@ -45,9 +48,9 @@
                     <h3 id="username_title">Select a local account:</h3>
                     <select id="username_select"></select>
                 </div>
-                <div>
-                    <button id="auth_button" onclick="postAuthenticationRequest()">Authorize with Google</button>
-                    <button id="reset_button_select" onclick="resetPage()">Reset</button>
+                <div class="button_bar">
+                    <button id="auth_button">Authorize with Google</button>
+                    <button id="reset_button_select">Reset</button>
                 </div>
             </div>
             <div id="auth_result" style="display: none">
@@ -59,7 +62,7 @@
                     connections"
                     <p></p>
                 </div>
-                <button id="reauth_button" onclick="authAgain()">Authorize another account</button>
+                <button id="reauth_button">Authorize another account</button>
                 <button id="reset_button_result" onclick="resetPage()">Reset</button>
             </div>
         </div>
