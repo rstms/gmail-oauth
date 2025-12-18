@@ -30,24 +30,23 @@
     </head>
     <body>
         <h3 id="title_text">Gmail Authorization</h3>
-        A local <b>@mailcapsule.io</b> email account with a username beginning with 'gmail.' may be associated with a gmail address.<br />
-        To make this connection, enter the local account username, then use the 'Authorize with Google' button to select your gmail
-        account.<br />
-        The resulting process will connect the selected email account with a gmail account and authorize IMAP and SMTP connections.
+        <p>
+            A local <b>mailcapsule.io</b> email account <b>with a username beginning with 'gmail.'</b> may be associated with a gmail
+            address. To make this connection, select the desired local account username then use the 'Authorize with Google' button.
+            The resulting process will allow you to select a gmail account and authorize IMAP and SMTP connections.
+        </p>
         <p>
             This action grants the .mailcapsule.io servers permission to fetch incoming gmail and send outgoing gmail using a
             persistent authorization token.
         </p>
-
-        <p></p>
         <div id="all_controls">
             <div id="control_group">
                 <h3 id="username_title">Select a local account:</h3>
-		<div>
-		    <select id="username_select"></select>
-		</div>
+                <div>
+                    <select id="username_select"></select>
+                </div>
                 <div class="button_bar">
-		    <button id="authenticate_button">Authorize with Google</button>
+                    <button id="authenticate_button">Authorize with Google</button>
                     <button id="reset_button_select">Reset</button>
                 </div>
             </div>
@@ -62,8 +61,8 @@
                 </div>
                 <button id="reauth_button">Authorize another account</button>
                 <div class="button_bar">
-		    <button id="reset_button_result">Reset</button>
-		</div>
+                    <button id="reset_button_result">Reset</button>
+                </div>
             </div>
         </div>
     </body>
