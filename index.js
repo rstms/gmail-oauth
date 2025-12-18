@@ -29,7 +29,6 @@ function resetPage() {
 }
 
 function showResult(result) {
-    document.getElementById("auth_result_text").textContent = JSON.stringify(result, null, 2);
     hideElement("control_group");
     if (result.Success) {
         showElement("revoke_instructions");
@@ -39,6 +38,7 @@ function showResult(result) {
         hideElement("reauth_button");
     }
     showElement("control_group");
+    document.getElementById("auth_result_text").textContent = JSON.stringify(result, null, 2);
 }
 
 async function onWindowLoad() {
