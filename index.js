@@ -1,5 +1,7 @@
 /* globals console, document, fetch, URL, URLSearchParams, window */
 
+const version = "0.0.6";
+
 function hideElement(elementId) {
     try {
         document.getElementById(elementId).hidden = true;
@@ -132,3 +134,4 @@ async function requestAuthentication() {
 window.onload = onWindowLoad;
 document.getElementById("reset_button").addEventListener("click", resetPage);
 document.getElementById("authenticate_button").addEventListener("click", requestAuthentication);
+document.title = "gmail-oauth v" + version;
