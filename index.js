@@ -18,10 +18,14 @@ function showElement(elementId) {
     }
 }
 
-function resetPage() {
+function initElements() {
     showElement("auth_controls");
     hideElement("auth_result");
     hideElement("revoke_instructions");
+}
+
+function resetPage() {
+    initElements();
     window.location.href = "https://webmail.mailcapsule.io/oauth/";
 }
 
@@ -109,14 +113,14 @@ async function requestAuthorization(url, params) {
 
 async function requestAuthentication() {
     try {
-	const selectElement = document.getElementById("username_select");
-	console.log("selectElement:", selectElement);
+        const selectElement = document.getElementById("username_select");
+        console.log("selectElement:", selectElement);
         const response = await fetch("https://webmail.mailcapsule.io/oauth/authenticate/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({username: selectElement.value}),
+            body: JSON.stringify({ username: selectElement.value }),
         });
         console.log("response:", response);
         const result = await response.json();
