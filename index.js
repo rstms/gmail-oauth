@@ -19,8 +19,8 @@ function showElement(elementId) {
 }
 
 function initElements() {
-    hideElement("auth_result");
-    showElement("auth_controls");
+    hideElement("result_group");
+    showElement("control_group");
 }
 
 function resetPage() {
@@ -30,7 +30,7 @@ function resetPage() {
 
 function showResult(result) {
     document.getElementById("auth_result_text").textContent = JSON.stringify(result, null, 2);
-    hideElement("auth_controls");
+    hideElement("control_group");
     if (result.Success) {
         showElement("revoke_instructions");
         showElement("reauth_button");
@@ -38,7 +38,7 @@ function showResult(result) {
         hideElement("revoke_instructions");
         hideElement("reauth_button");
     }
-    showElement("auth_result");
+    showElement("control_group");
 }
 
 async function onWindowLoad() {
