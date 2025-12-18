@@ -116,7 +116,7 @@ async function requestAuthentication() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username: document.getElementById("local_username").value }),
+            body: JSON.stringify({username: selectElement.value}),
         });
         console.log("response:", response);
         const result = await response.json();
