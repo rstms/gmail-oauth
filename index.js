@@ -46,7 +46,9 @@ async function onWindowLoad() {
         console.log("window loaded");
         document.getElementById("reset_button_select").addEventListener("click", resetPage);
         document.getElementById("reset_button_result").addEventListener("click", resetPage);
+        document.getElementById("reauth_button").addEventListener("click", resetPage);
         document.getElementById("authenticate_button").addEventListener("click", requestAuthentication);
+        document.getElementById("deauth_button").addEventListener("click", requestDeleteToken);
         const title = "Gmail Authorization v" + version;
         document.getElementById("title_text").textContent = title;
         initElements();
@@ -118,9 +120,27 @@ async function requestAuthorization(url, params) {
 
 async function requestAuthentication() {
     try {
+	const uri = "https://webmail.mailcapsule.io/oauth/authenticate/";
+	return await postAuthenticationRequest(uri, true);
+    } catch (e) {
+        console.error("postAuthorizationRequest:", e);
+    }
+}
+
+async function requestForgetToken() {
+    try {
+	const uri = "https://webmail.mailcapsule.io/oauth/deauthenticate/";
+	return await postAuthenticationRequest(uri, false);
+    } catch (e) {
+        console.error("postAuthorizationRequest:", e);
+    }
+}
+
+async function requestAuthentication(uri, enableRedirect) {
+    try {
         const selectElement = document.getElementById("username_select");
         console.log("selectElement:", selectElement);
-        const response = await fetch("https://webmail.mailcapsule.io/oauth/authenticate/", {
+        const response = await fetch(uri, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -131,7 +151,7 @@ async function requestAuthentication() {
         const result = await response.json();
         console.log("result:", result);
         const authUri = result.Message;
-        if (result.Success) {
+        if (result.Success && enableRedirect) {
             console.log("redirecting to:", authUri);
             window.location.href = authUri;
         } else {
