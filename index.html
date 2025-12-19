@@ -44,11 +44,13 @@
                 <div>
                     <select id="username_select"></select>
                 </div>
+                <hr />
                 <div class="button_bar">
-		    <label>Selected Account:</label>
-		    <input id="selected_account" disabled="true"></input>
+                    <label>Selected Account:</label>
+                    <input id="selected_account" disabled="true" />
                     <button id="auth_button">Authorize with Google</button>
                     <button id="deauth_button">Remove Authorization</button>
+                    <button id="reset_button_control">Reset</button>
                 </div>
             </div>
             <div id="result_group">
@@ -59,12 +61,11 @@
                     To revoke an authorization open your google account settings page and choose "Account" -> "Third-party connections"
                     <p></p>
                 </div>
-		<button id="reauth_button">Authorize another account</button>
+                <div class="button_bar">
+                    <button id="reauth_button">Authorize another account</button>
+                    <button id="reset_button_result">Reset</button>
                 </div>
             </div>
-            <div id="reset_group">
-		<button id="reset_button">Reset</button>
-	    </div>
         </div>
     </body>
 </html>
