@@ -41,15 +41,25 @@ function showResult(result) {
     document.getElementById("auth_result_text").textContent = JSON.stringify(result, null, 2);
 }
 
+function connectEvent(id, event, func) {
+    try {
+        console.log("connectEvent:", { id: id, event: event, func: func });
+        const element = document.getElementById(id);
+        element.addEventListener(event, func);
+    } catch (e) {
+        console.error("onWindowLoad:", e);
+    }
+}
+
 async function onWindowLoad() {
     try {
         console.log("window loaded");
-        document.getElementById("reset_button_select").addEventListener("click", resetPage);
-        document.getElementById("reset_button_result").addEventListener("click", resetPage);
-        document.getElementById("reauth_button").addEventListener("click", resetPage);
-        document.getElementById("auth_button").addEventListener("click", requestAuthentication);
-        document.getElementById("deauth_button").addEventListener("click", requestForgetToken);
-        document.getElementById("username_select").addEventListener("change", handleSelectChange);
+        connectEvent("reset_button_select", "click", resetPage);
+        connectEvent("reset_button_result", "click", resetPage);
+        connectEvent("reauth_button", "click", resetPage);
+        connectEvent("auth_button", "click", requestAuthentication);
+        connectEvent("deauth_button", "click", requestForgetToken);
+        connectEvent("username_select", "change", handleSelectChange);
         updateAuthButtons(false, false);
         const title = "Gmail Authorization v" + version;
         document.getElementById("title_text").textContent = title;
@@ -65,6 +75,7 @@ async function onWindowLoad() {
             });
             showResult(jsonParams);
             if (jsonParams["authorization"] === "pending") {
+                console.log("passing pending authorization callback to /oauth/authorize endpoint");
                 const endpoint = "https://webmail.mailcapsule.io/oauth/authorize/";
                 const result = await requestAuthorization(endpoint, { state: jsonParams["state"] });
                 showResult(result);
