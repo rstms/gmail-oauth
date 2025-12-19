@@ -113,7 +113,7 @@ async function updateUsernames() {
         console.log("usernames:", usernames);
 
         let found = false;
-        for (const [local, gmail] of Object.Entries(usernames)) {
+        for (const [local, gmail] of Object.entries(usernames)) {
             found = true;
             const option = document.createElement("option");
             option.value = { account: local, gmail: gmail };
