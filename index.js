@@ -116,7 +116,7 @@ async function updateUsernames() {
         for (const [local, gmail] of Object.entries(usernames)) {
             found = true;
             const option = document.createElement("option");
-            option.value = JSON.stringify({ account: local, gmail: gmail });
+            option.value = JSON.stringify({ local: local, gmail: gmail });
             if (gmail !== "") {
                 option.textContent = local + " <--> " + gmail;
             } else {
