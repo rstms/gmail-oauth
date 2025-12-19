@@ -47,8 +47,10 @@ async function onWindowLoad() {
         document.getElementById("reset_button_select").addEventListener("click", resetPage);
         document.getElementById("reset_button_result").addEventListener("click", resetPage);
         document.getElementById("reauth_button").addEventListener("click", resetPage);
-        document.getElementById("authenticate_button").addEventListener("click", requestAuthentication);
+        document.getElementById("auth_button").addEventListener("click", requestAuthentication);
         document.getElementById("deauth_button").addEventListener("click", requestForgetToken);
+        document.getElementById("username_select").addEventListener("change", handleSelectChange);
+        updateAuthButtons(false, false);
         const title = "Gmail Authorization v" + version;
         document.getElementById("title_text").textContent = title;
         initElements();
@@ -73,6 +75,21 @@ async function onWindowLoad() {
     }
 }
 
+async function handleSelectChange(event) {
+    try {
+        const selectElement = event.target;
+        const selectedValue = selectElement.value;
+        console.log("selectChange:", { selectElement: selectElement, selectedValue: selectedValue });
+        if (selectedValue.authorized) {
+            updateAuthButtons(false, true);
+        } else {
+            updateAuthButtons(true, false);
+        }
+    } catch (e) {
+        console.error("handleSelectChange:", e);
+    }
+}
+
 async function updateUsernames() {
     try {
         console.log("updating usernames");
@@ -81,22 +98,29 @@ async function updateUsernames() {
         const selectTitle = document.getElementById("username_title");
         const selectElement = document.getElementById("username_select");
         let usernames = await response.json();
-        // usernames = [];
+        // usernames = {};
         console.log("usernames:", usernames);
-        if (usernames.length < 1) {
-            hideElement("username_select");
-            selectTitle.textContent = "No eligible usernames exist";
-        } else {
-            selectTitle.textContent = "Select a local account:";
-            showElement("username_select");
+
+        let found = false;
+        for (const [local, gmail] of Object.Entries(usernames)) {
+            found = true;
+            const option = document.createElement("option");
+            option.value = { account: local, gmail: gmail };
+            if (gmail !== "") {
+                option.textContent = local + " <--> " + gmail;
+            } else {
+                option.textContent = local;
+            }
+            selectElement.appendChild(option);
         }
 
-        usernames.forEach((username) => {
-            const option = document.createElement("option");
-            option.value = username;
-            option.textContent = username;
-            selectElement.appendChild(option);
-        });
+        if (found) {
+            selectTitle.textContent = "Select a local account:";
+            showElement("username_select");
+        } else {
+            hideElement("username_select");
+            selectTitle.textContent = "No eligible usernames exist";
+        }
     } catch (e) {
         console.error("updateUsernames:", e);
     }
@@ -136,6 +160,17 @@ async function requestForgetToken() {
     }
 }
 
+function updateAuthButtons(authEnable, deauthEnable) {
+    try {
+        const authButton = document.findElementById("auth_button");
+        const deauthButton = document.findElementById("deauth_button");
+        authButton.disable = !authEnable;
+        deauthButton.disable = !deauthEnable;
+    } catch (e) {
+        console.error("updateAuthButtons:", e);
+    }
+}
+
 async function postAuthenticationRequest(uri, enableRedirect) {
     try {
         const selectElement = document.getElementById("username_select");
@@ -145,7 +180,7 @@ async function postAuthenticationRequest(uri, enableRedirect) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username: selectElement.value }),
+            body: JSON.stringify(selectElement.value),
         });
         console.log("response:", response);
         const result = await response.json();
