@@ -19,6 +19,7 @@ function showElement(elementId) {
 }
 
 function resetPage() {
+    console.log("resetPage");
     location.reload(true);
 }
 
@@ -196,7 +197,7 @@ async function postAuthenticationRequest(uri, enableRedirect) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(bodyData),
+            body: bodyData,
         });
         console.log("response:", response);
         const result = await response.json();
