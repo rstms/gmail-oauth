@@ -4,7 +4,7 @@
 project != basename $$(pwd)
 gitclean = if git status --porcelain | grep '^.*$$'; then echo git status is dirty; false; else echo git status is clean; true; fi
 
-src = $(filter-out eslint,$(wildcard *.js))
+src = $(filter-out eslint.config.js,$(wildcard *.js))
 json != find -type f -name \*.json
 json_fmt = $(foreach foo,$(json),$(dir $(foo)).$(notdir $(basename $(foo))))
 
