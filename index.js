@@ -91,10 +91,8 @@ async function handleSelectChange(event) {
         const selectElement = event.target;
         const selectedValue = selectElement.value;
         const items = selectedValue.split(",");
-        let authorized = false;
-        if (items.length > 1 && items[1].length > 1) {
-            authorized = true;
-        }
+        const authorized = items[1].length > 0;
+        document.getElementById("selected_account").value = items[0];
         console.log("selectChange:", {
             selectElement: selectElement,
             selectedValue: selectedValue,
