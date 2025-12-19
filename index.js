@@ -113,15 +113,19 @@ async function updateUsernames() {
         console.log("usernames:", usernames);
 
         let found = false;
-        for (const [local, gmail] of Object.entries(usernames)) {
+        for (const [localAddress, gmailAddress] of Object.entries(usernames)) {
             found = true;
             const option = document.createElement("option");
-            option.value = JSON.stringify({ local: local, gmail: gmail });
-            if (gmail !== "") {
-                option.textContent = local + " <--> " + gmail;
+            option.value = {
+		local: localAddress,
+		gmail: gmailAddress,
+	    }
+            if (gmailAddress !== "") {
+                option.textContent = localAddress + " [" + gmailAddress + "]";
             } else {
-                option.textContent = local;
+                option.textContent = localAddress;
             }
+	    console.log("appending: ", option);
             selectElement.appendChild(option);
         }
 
