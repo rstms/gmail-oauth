@@ -20,8 +20,7 @@ function showElement(elementId) {
 
 function resetPage() {
     console.log("resetPage");
-    window.location.href = "https://mailcapsule.io/oauth/";
-    window.location.reload(true);
+    window.location.href = window.location.origin + window.location.pathname;
 }
 
 function showResult(result) {
