@@ -1,7 +1,7 @@
 # openbsd port makefile for gmail-oauth
 
 PORTNAME = gmail-oauth
-PORTVERSION = 1.0.2
+PORTVERSION = 1.0.3
 CATEGORIES = www
 MASTER_SITES = https://github.com/rstms/gmail-oauth/releases/download/v${PORTVERSION}/
 
