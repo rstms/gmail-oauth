@@ -1,26 +1,21 @@
-# openbsd port makefile for gmail-oauth
+# gmail-oauth port makefile
 
-MAINTAINER = Matt Krueger <mkrueger@rstms.net>
 COMMENT = rstms mailserver token daemon frontend page
-
-PORTNAME = gmail-oauth
-PORTVERSION = 1.0.4
+PORTVERSION = 1.0.1
+DISTNAME = gmail-oauth-$(PORTVERSION)
 CATEGORIES = sysutils
-MASTER_SITES = https://github.com/rstms/gmail-oauth/releases/download/v${PORTVERSION}/
-
-DISTFILES = ${PORTNAME}-${PORTVERSION}.tgz
-WRKDIST = ${WRKDIR}/${PORTNAME}-${PORTVERSION}
-
+MAINTAINER = Matt Kruger <mkrueger@rstms.net>
+PERMIT_PACKAGE = Yes
+SITES = https://github.com/rstms/gmail-oauth/releases/download/v$(PORTVERSION)/
+EXTRACT_SUFX =.tgz
+NO_BUILD = Yes
+NO_TEST = Yes
+PKG_ARCH = *
 PREFIX = /var/www/nginx/oauth
 
-#do-extract:
-#	${PACIFIC} ${DISTFILES} | ${TAR} -xz -C ${WRKDIR}
-
 do-install:
-	${INSTALL_DATA} ${WRKDIST}/index.hmtl ${PREFIX}/index.html
-	${INSTALL_DATA} ${WRKDIST}/index.js ${PREFIX}/index.js
-
-#do-clean:
-#	rm -rf ${WRKDIST}
+	${INSTALL_DATA_DIR} ${PREFIX}/
+	${INSTALL_DATA} ${WRKDIR}/index.html ${PREFIX}/
+	${INSTALL_DATA} ${WRKDIR}/index.js ${PREFIX}/
 
 .include <bsd.port.mk>
