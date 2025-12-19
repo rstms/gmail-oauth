@@ -90,8 +90,18 @@ async function handleSelectChange(event) {
     try {
         const selectElement = event.target;
         const selectedValue = selectElement.value;
-        console.log("selectChange:", { selectElement: selectElement, selectedValue: selectedValue });
-        if (selectedValue.authorized) {
+        const items = selectedValue.split(",");
+        let authorized = false;
+        if (items.length > 1 && items[1].length > 1) {
+            authorized = true;
+        }
+        console.log("selectChange:", {
+            selectElement: selectElement,
+            selectedValue: selectedValue,
+            items: items,
+            authorized: authorized,
+        });
+        if (authorized) {
             updateAuthButtons(false, true);
         } else {
             updateAuthButtons(true, false);
@@ -116,16 +126,13 @@ async function updateUsernames() {
         for (const [localAddress, gmailAddress] of Object.entries(usernames)) {
             found = true;
             const option = document.createElement("option");
-            option.value = {
-		local: localAddress,
-		gmail: gmailAddress,
-	    }
+            option.value = localAddress + "," + gmailAddress;
             if (gmailAddress !== "") {
                 option.textContent = localAddress + " [" + gmailAddress + "]";
             } else {
                 option.textContent = localAddress;
             }
-	    console.log("appending: ", option);
+            console.log("appending: ", option);
             selectElement.appendChild(option);
         }
 
@@ -134,7 +141,7 @@ async function updateUsernames() {
             showElement("username_select");
         } else {
             hideElement("username_select");
-            selectTitle.textContent = "No eligible usernames exist";
+            selectTitle.textContent = "No local accounts have a 'gmail.' prefix";
         }
     } catch (e) {
         console.error("updateUsernames:", e);
