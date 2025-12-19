@@ -1,2 +1,2 @@
-var/www/ngnix/oauth/index.html
-var/www/nginx/oauth/index.js
+index.html
+index.js
