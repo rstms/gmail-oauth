@@ -173,8 +173,8 @@ async function requestForgetToken() {
 
 function updateAuthButtons(authEnable, deauthEnable) {
     try {
-        const authButton = document.findElementById("auth_button");
-        const deauthButton = document.findElementById("deauth_button");
+        const authButton = document.getElementById("auth_button");
+        const deauthButton = document.getElementById("deauth_button");
         authButton.disable = !authEnable;
         deauthButton.disable = !deauthEnable;
     } catch (e) {
