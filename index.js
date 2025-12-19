@@ -92,7 +92,7 @@ async function handleSelectChange(event) {
         const selectedValue = selectElement.value;
         const items = selectedValue.split(",");
         const authorized = items[1].length > 0;
-        document.getElementById("selected_account").value = items[0];
+        document.getElementById("selected_account").value = items[0].replace(/@.*/, "");
         console.log("selectChange:", {
             selectElement: selectElement,
             selectedValue: selectedValue,
