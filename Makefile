@@ -24,7 +24,7 @@ all: $(html) $(src) $(json_fmt) fix .fmt lint assets
 assets: exported/assets
 	rm -rf assets
 	mkdir assets
-	mv exported/assets/* assets
+	$(foreach asset,$(wildcard exported/assets/*),mv $(asset) assets;)
 
 %.html: exported/%.html
 	sed '/<script>/,/<\/script>/d' $< >$@
