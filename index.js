@@ -1,4 +1,4 @@
-/* globals console, document, fetch, URL, URLSearchParams, window */
+/* globals console, document, fetch, location, URL, URLSearchParams, window */
 
 const version = "0.0.54";
 
@@ -18,24 +18,16 @@ function showElement(elementId) {
     }
 }
 
-function initElements() {
-    hideElement("result_group");
-    showElement("control_group");
-}
-
 function resetPage() {
-    initElements();
-    window.location.href = "https://webmail.mailcapsule.io/oauth/";
+    location.reload(true);
 }
 
 function showResult(result) {
     hideElement("control_group");
     if (result.Success) {
         showElement("revoke_instructions");
-        showElement("reauth_button");
     } else {
         hideElement("revoke_instructions");
-        hideElement("reauth_button");
     }
     showElement("result_group");
     document.getElementById("auth_result_text").textContent = JSON.stringify(result, null, 2);
@@ -54,16 +46,15 @@ function connectEvent(id, event, func) {
 async function onWindowLoad() {
     try {
         console.log("window loaded");
+        hideElement("result_group");
+        showElement("control_group");
+        document.getElementById("title_text").textContent = "Gmail Authorization v" + version;
         connectEvent("reset_button_select", "click", resetPage);
         connectEvent("reset_button_result", "click", resetPage);
-        connectEvent("reauth_button", "click", resetPage);
         connectEvent("auth_button", "click", requestAuthentication);
         connectEvent("deauth_button", "click", requestForgetToken);
         connectEvent("username_select", "change", handleSelectChange);
         updateAuthButtons(false, false);
-        const title = "Gmail Authorization v" + version;
-        document.getElementById("title_text").textContent = title;
-        initElements();
         await updateUsernames();
         console.log("href:", window.location.href);
         const url = new URL(window.location.href);
