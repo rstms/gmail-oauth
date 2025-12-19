@@ -1,0 +1,26 @@
+# openbsd port makefile for gmail-oauth
+
+PORTNAME = gmail-oauth
+PORTVERSION = 1.0.0
+CATEGORIES = www
+MASTER_SITES = https://github.com/rstms/gmail-oauth/releases/download/v${PORTVERSION}/
+
+DISTFILES = ${PORTNAME}-${PORTVERSION}.tgz
+WRKDIST = ${WRKDIR}/${PORTNAME}-${PORTVERSION}
+
+PREFIX = /var/www/nginx/oauth
+
+do-fetch: 
+	${FETCH} ${MASTER_SITES}/${DISTFILES}
+
+do-extract:
+	${PACIFIC} ${DISTFILES} | ${TAR} -xz -C ${WRKDIR}
+
+do-install:
+	${INSTALL_DATA} ${WRKDIST}/index.hmtl ${PREFIX}/index.html
+	${INSTALL_DATA} ${WRKDIST}/index.js ${PREFIX}/index.js
+
+do-clean:
+	rm -rf ${WRKDIST}
+
+.include <bsd.port.mk>
