@@ -116,7 +116,7 @@ async function updateUsernames() {
         for (const [local, gmail] of Object.entries(usernames)) {
             found = true;
             const option = document.createElement("option");
-            option.value = { account: local, gmail: gmail };
+            option.value = JSON.stringify({ account: local, gmail: gmail });
             if (gmail !== "") {
                 option.textContent = local + " <--> " + gmail;
             } else {
@@ -175,8 +175,8 @@ function updateAuthButtons(authEnable, deauthEnable) {
     try {
         const authButton = document.getElementById("auth_button");
         const deauthButton = document.getElementById("deauth_button");
-        authButton.disable = !authEnable;
-        deauthButton.disable = !deauthEnable;
+        authButton.disabled = !authEnable;
+        deauthButton.disabled = !deauthEnable;
     } catch (e) {
         console.error("updateAuthButtons:", e);
     }
