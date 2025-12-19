@@ -16,9 +16,6 @@
                 border: 2px solid #000;
                 padding: 0px 10px 10px 10px;
             }
-            .username_controls {
-                width: 1fr;
-            }
             .button_bar {
                 margin-top: 20px;
             }
@@ -26,7 +23,7 @@
                 margin-right: 10px;
             }
         </style>
-        <script type="module" src="./index.js"></script>
+        <script type="module" src="index.js"></script>
     </head>
     <body>
         <h3 id="title_text">Gmail Authorization</h3>
@@ -58,8 +55,7 @@
                 <pre id="auth_result_text"></pre>
                 <p></p>
                 <div id="revoke_instructions">
-                    To revoke this authorization: connect to your google account using a browser and choose "Account" -> "Third-party
-                    connections"
+                    To revoke an authorization open your google account settings page and choose "Account" -> "Third-party connections"
                     <p></p>
                 </div>
                 <button id="reauth_button">Authorize another account</button>
