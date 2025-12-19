@@ -185,14 +185,14 @@ function updateAuthButtons(authEnable, deauthEnable) {
 async function postAuthenticationRequest(uri, enableRedirect) {
     try {
         const selectElement = document.getElementById("username_select");
-        const bodyData = selectElement.value;
+        const bodyData = JSON.stringify(selectElement.value);
         console.log("postAuthenticationRequest:", { uri: uri, body: bodyData });
         const response = await fetch(uri, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(bodyData),
+            body: bodyData,
         });
         console.log("response:", response);
         const result = await response.json();
