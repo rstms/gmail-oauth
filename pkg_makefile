@@ -4,7 +4,7 @@ MAINTAINER = Matt Krueger <mkrueger@rstms.net>
 COMMENT = rstms mailserver token daemon frontend page
 
 PORTNAME = gmail-oauth
-PORTVERSION = 1.0.3
+PORTVERSION = 1.0.4
 CATEGORIES = sysutils
 MASTER_SITES = https://github.com/rstms/gmail-oauth/releases/download/v${PORTVERSION}/
 
