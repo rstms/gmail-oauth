@@ -1,4 +1,4 @@
-/* globals console, document, fetch, URL, URLSearchParams, window */
+/* globals console, document, fetch, location, URL, URLSearchParams, window */
 
 const version = "0.0.59";
 
@@ -21,6 +21,7 @@ function showElement(elementId) {
 function resetPage() {
     console.log("resetPage");
     document.href = "https://mailcapsule.io/oauth/";
+    location.reload(true);
 }
 
 function showResult(result) {
