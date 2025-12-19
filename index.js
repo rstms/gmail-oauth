@@ -50,7 +50,7 @@ async function onWindowLoad() {
         hideElement("result_group");
         showElement("control_group");
         document.getElementById("title_text").textContent = "Gmail Authorization v" + version;
-        connectEvent("reset_button_select", "click", resetPage);
+        connectEvent("reset_button_control", "click", resetPage);
         connectEvent("reset_button_result", "click", resetPage);
         connectEvent("auth_button", "click", requestAuthentication);
         connectEvent("deauth_button", "click", requestForgetToken);
