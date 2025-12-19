@@ -1,6 +1,6 @@
 /* globals console, document, fetch, URL, URLSearchParams, window */
 
-const version = "0.0.45";
+const version = "0.0.46";
 
 function hideElement(elementId) {
     try {
