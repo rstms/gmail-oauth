@@ -1,4 +1,4 @@
-/* globals console, document, fetch, location, URL, URLSearchParams, window */
+/* globals console, document, fetch, URL, URLSearchParams, window */
 
 const version = "0.0.60";
 
@@ -20,8 +20,8 @@ function showElement(elementId) {
 
 function resetPage() {
     console.log("resetPage");
-    document.href = "https://mailcapsule.io/oauth/";
-    location.reload(true);
+    window.location.href = "https://mailcapsule.io/oauth/";
+    window.location.reload(true);
 }
 
 function showResult(result) {
@@ -203,12 +203,11 @@ async function postAuthenticationRequest(uri, enableRedirect) {
         console.log("response:", response);
         const result = await response.json();
         console.log("result:", result);
-        const authUri = result.Message;
         if (result.Success && enableRedirect) {
+            const authUri = result.URI;
             console.log("redirecting to:", authUri);
             window.location.href = authUri;
         } else {
-            console.log("not redirecting to:", authUri);
             showResult(result);
         }
     } catch (e) {
