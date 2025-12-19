@@ -50,9 +50,8 @@ release_file = $(project)-$(version).tgz
 
 release: all
 	@$(gitclean) || { [ -n "$(dirty)" ] && echo "allowing dirty release"; }
-	rm -f release.zip
-	zip release.zip -r $(package_files)
-	mv release.zip dist/$(release_file)
+	@echo package_files=$(package_files)
+howdy:
 	@$(if $(update),gh release delete -y v$(version),)
 	gh release create v$(version) --notes "v$(version)"
 	( cd dist && gh release upload v$(version) $(release_file) )
@@ -63,10 +62,9 @@ clean:
 	rm -f .prettier
 	docker rmi prettier || true
 	rm -rf src/node_modules
-	rm -f release.zip
 
 distclean: clean
-	rm -f dist/*.xpi
+	rm -f dist && mkdir dist
 
 deploy:
 	@$(gitclean)
