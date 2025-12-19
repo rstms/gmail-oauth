@@ -8,9 +8,9 @@ src = $(filter-out eslint.config.js,$(wildcard *.js))
 json != find -type f -name \*.json
 json_fmt = $(foreach foo,$(json),$(dir $(foo)).$(notdir $(basename $(foo))))
 
-html = index.html
+html = $(wildcard *.html)
 
-package_files = VERSION LICENSE README.md $(src) $(html) assets
+package_files = $(src) $(html) assets
 
 version != cat VERSION
 
@@ -48,11 +48,13 @@ fmt:	.fmt
 
 release_file = $(project)-$(version).tgz
 
-release: all
-	@$(gitclean) || { [ -n "$(dirty)" ] && echo "allowing dirty release"; }
-	@echo package_files=$(package_files)
-howdy:
-	@$(if $(update),gh release delete -y v$(version),)
+dist/$(release_file): $(package_files)
+	tar zcvf dist/$(release_file) $(package_files)
+
+dist: dist/$(release_file)
+
+release: all dist
+	@$(gitclean)
 	gh release create v$(version) --notes "v$(version)"
 	( cd dist && gh release upload v$(version) $(release_file) )
 
@@ -64,7 +66,7 @@ clean:
 	rm -rf src/node_modules
 
 distclean: clean
-	rm -f dist && mkdir dist
+	rm -rf dist && mkdir dist
 
 deploy:
 	@$(gitclean)
