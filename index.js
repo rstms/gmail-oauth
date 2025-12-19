@@ -197,7 +197,7 @@ async function postAuthenticationRequest(uri, enableRedirect) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: bodyData,
+            body: JSON.stringify(bodyData),
         });
         console.log("response:", response);
         const result = await response.json();
