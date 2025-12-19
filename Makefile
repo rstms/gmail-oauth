@@ -10,7 +10,7 @@ json_fmt = $(foreach foo,$(json),$(dir $(foo)).$(notdir $(basename $(foo))))
 
 html = $(wildcard *.html)
 
-package_files = $(src) $(html) assets pkg_makefile pkg_configure PLIST
+package_files = $(src) $(html) assets pkg_makefile pkg_configure PLIST LICENSE
 
 version != cat VERSION
 
