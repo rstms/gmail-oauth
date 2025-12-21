@@ -1,6 +1,22 @@
 /* globals console, document, fetch, URL, URLSearchParams, window */
 
 const version = "1.0.7";
+var local_domain = "LOCAL_DOMAIN";
+
+const description_text = `
+    A local <b>LOCAL_DOMAIN</b> email account with a username beginning with 
+    <b>'gmail.'</b> may be associated with a gmail address.
+    <br />
+    To make this connection, select the desired local account username then use 
+    the 'Authorize with Google' button.
+    <br />
+    The resulting process will allow you to select a gmail account and authorize
+    IMAP and SMTP connections.
+    <br />
+    This action grants the <b>LOCAL_DOMAIN</b> servers permission to fetch 
+    incoming gmail and send outgoing gmail using a persistent authorization
+    token.
+`;
 
 function hideElement(elementId) {
     try {
@@ -44,12 +60,18 @@ function connectEvent(id, event, func) {
     }
 }
 
+function editedDescriptionText() {
+    return description_text.replace(/LOCAL_DOMAIN/g, local_domain);
+}
+
 async function onWindowLoad() {
     try {
         console.log("window loaded");
         hideElement("result_group");
         showElement("control_group");
+	local_domain = window.hostname.replace(/^[^.]*\./, "");
         document.getElementById("title_text").textContent = "Gmail Authorization v" + version;
+        document.getElementById("description_text").textContent = editedDescriptionText();
         connectEvent("reset_button_control", "click", resetPage);
         connectEvent("reset_button_result", "click", resetPage);
         connectEvent("auth_button", "click", requestAuthentication);
@@ -68,7 +90,7 @@ async function onWindowLoad() {
             showResult(jsonParams);
             if (jsonParams["authorization"] === "pending") {
                 console.log("passing pending authorization callback to /oauth/authorize endpoint");
-                const endpoint = "https://webmail.mailcapsule.io/oauth/authorize/";
+                const endpoint = "https://webmail." + local_domain + "/oauth/authorize/";
                 const result = await requestAuthorization(endpoint, { state: jsonParams["state"] });
                 showResult(result);
             }
@@ -104,7 +126,7 @@ async function handleSelectChange(event) {
 async function updateUsernames() {
     try {
         console.log("updating usernames");
-        const url = "https://webmail.mailcapsule.io/oauth/usernames/";
+        const url = "https://webmail." + local_domain + "/oauth/usernames/";
         const response = await fetch(url);
         const selectTitle = document.getElementById("username_title");
         const selectElement = document.getElementById("username_select");
@@ -156,7 +178,7 @@ async function requestAuthorization(url, params) {
 
 async function requestAuthentication() {
     try {
-        const uri = "https://webmail.mailcapsule.io/oauth/authenticate/";
+        const uri = "https://webmail." + local_domain + "/oauth/authenticate/";
         return await postAuthenticationRequest(uri, true);
     } catch (e) {
         console.error("requestAuthentication:", e);
@@ -165,7 +187,7 @@ async function requestAuthentication() {
 
 async function requestForgetToken() {
     try {
-        const uri = "https://webmail.mailcapsule.io/oauth/deauthenticate/";
+        const uri = "https://webmail." + local_domain + "/oauth/deauthenticate/";
         return await postAuthenticationRequest(uri, false);
     } catch (e) {
         console.error("requestForgetToken:", e);
