@@ -69,7 +69,7 @@ async function onWindowLoad() {
         console.log("window loaded");
         hideElement("result_group");
         showElement("control_group");
-	local_domain = window.hostname.replace(/^[^.]*\./, "");
+        local_domain = window.hostname.replace(/^[^.]*\./, "");
         document.getElementById("title_text").textContent = "Gmail Authorization v" + version;
         document.getElementById("description_text").textContent = editedDescriptionText();
         connectEvent("reset_button_control", "click", resetPage);
