@@ -1,7 +1,7 @@
 # gmail-oauth port makefile
 
 COMMENT = rstms mailserver token daemon frontend page
-PORTVERSION = 1.0.11
+PORTVERSION = 1.0.12
 DISTNAME = gmail-oauth-$(PORTVERSION)
 CATEGORIES = sysutils
 MAINTAINER = Matt Kruger <mkrueger@rstms.net>
