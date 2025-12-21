@@ -1,6 +1,6 @@
 /* globals console, document, fetch, URL, URLSearchParams, window */
 
-const version = "1.0.9";
+const version = "1.0.10";
 var local_domain = "LOCAL_DOMAIN";
 
 const description_text = `
