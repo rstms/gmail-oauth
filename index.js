@@ -1,9 +1,9 @@
 /* globals console, document, fetch, URL, URLSearchParams, window */
 
 const version = "1.0.10";
-var local_domain = "LOCAL_DOMAIN";
+var localDomain = "LOCAL_DOMAIN";
 
-const description_text = `
+const descriptionText = `
     A local <b>LOCAL_DOMAIN</b> email account with a username beginning with 
     <b>'gmail.'</b> may be associated with a gmail address.
     <br />
@@ -60,18 +60,19 @@ function connectEvent(id, event, func) {
     }
 }
 
-function editedDescriptionText() {
-    return description_text.replace(/LOCAL_DOMAIN/g, local_domain);
-}
-
 async function onWindowLoad() {
     try {
         console.log("window loaded");
         hideElement("result_group");
         showElement("control_group");
-        local_domain = window.hostname.replace(/^[^.]*\./, "");
+        localDomain = window.location.host;
+        let hostParts = localDomain.split(".");
+        if (hostParts.length > 2) {
+            localDomain = localDomain.replace(/^[^.]*\./, "");
+        }
+        console.log("localDomain:", localDomain);
         document.getElementById("title_text").textContent = "Gmail Authorization v" + version;
-        document.getElementById("description_text").textContent = editedDescriptionText();
+        document.getElementById("description_text").innerHTML = descriptionText.replace(/LOCAL_DOMAIN/g, localDomain);
         connectEvent("reset_button_control", "click", resetPage);
         connectEvent("reset_button_result", "click", resetPage);
         connectEvent("auth_button", "click", requestAuthentication);
@@ -90,7 +91,8 @@ async function onWindowLoad() {
             showResult(jsonParams);
             if (jsonParams["authorization"] === "pending") {
                 console.log("passing pending authorization callback to /oauth/authorize endpoint");
-                const endpoint = "https://webmail." + local_domain + "/oauth/authorize/";
+                //const endpoint = "https://webmail." + localDomain + "/oauth/authorize/";
+                const endpoint = "/oauth/authorize/";
                 const result = await requestAuthorization(endpoint, { state: jsonParams["state"] });
                 showResult(result);
             }
@@ -142,7 +144,7 @@ async function updateActionButtons(localAddress, gmailAddress) {
 
 async function updateUsernames() {
     try {
-        const url = "https://webmail." + local_domain + "/oauth/usernames/";
+        const url = "/oauth/usernames/";
         console.log("fetching usernames from:", url);
         const response = await fetch(url);
         const selectTitle = document.getElementById("username_title");
@@ -150,10 +152,6 @@ async function updateUsernames() {
         let usernames = await response.json();
         // usernames = {};
         console.log("usernames:", usernames);
-
-        let first = true;
-        let firstLocal = "";
-        let firstGmail = "";
         let found = false;
         for (const [localAddress, gmailAddress] of Object.entries(usernames)) {
             found = true;
@@ -166,19 +164,12 @@ async function updateUsernames() {
             }
             console.log("appending: ", option);
             selectElement.appendChild(option);
-            if (first) {
-                first = false;
-                firstLocal = localAddress;
-                firstGmail = gmailAddress;
-            }
         }
+        selectElement.selectedIndex = -1;
 
         if (found) {
             selectTitle.textContent = "Select a local account:";
             showElement("username_select");
-            if (usernames.length == 1) {
-                await updateActionButtons(firstLocal, firstGmail);
-            }
         } else {
             hideElement("username_select");
             selectTitle.textContent = "No local accounts have a 'gmail.' prefix";
@@ -206,8 +197,8 @@ async function requestAuthorization(url, params) {
 
 async function requestAuthentication() {
     try {
-        const uri = "https://webmail." + local_domain + "/oauth/authenticate/";
-        return await postAuthenticationRequest(uri, true);
+        //const uri = "https://webmail." + localDomain + "/oauth/authenticate/";
+        return await postAuthenticationRequest("/oauth/authenticate/", true);
     } catch (e) {
         console.error("requestAuthentication:", e);
     }
@@ -215,8 +206,8 @@ async function requestAuthentication() {
 
 async function requestForgetToken() {
     try {
-        const uri = "https://webmail." + local_domain + "/oauth/deauthenticate/";
-        return await postAuthenticationRequest(uri, false);
+        //const uri = "https://webmail." + localDomain + "/oauth/deauthenticate/";
+        return await postAuthenticationRequest("/oauth/deauthenticate/", false);
     } catch (e) {
         console.error("requestForgetToken:", e);
     }
