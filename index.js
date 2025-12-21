@@ -105,14 +105,31 @@ async function handleSelectChange(event) {
         const selectElement = event.target;
         const selectedValue = selectElement.value;
         const items = selectedValue.split(",");
-        const authorized = items[1].length > 0;
-        document.getElementById("selected_account").value = items[0].replace(/@.*/, "");
+        const localAddress = items[0];
+        const gmailAddress = items[1];
         console.log("selectChange:", {
             selectElement: selectElement,
             selectedValue: selectedValue,
-            items: items,
+            localAddress: localAddress,
+            gmailAddress: gmailAddress,
+        });
+        await updateActionButtons(items[0], items[1]);
+    } catch (e) {
+        console.error("handleSelectChange:", e);
+    }
+}
+
+async function updateActionButtons(localAddress, gmailAddress) {
+    try {
+        const authorized = gmailAddress.length > 0;
+        const selectedAccount = localAddress.replace(/@.*/, "");
+        console.log("selectChange:", {
+            localAddress: localAddress,
+            gmailAddress: gmailAddress,
+            selectedAccount: selectedAccount,
             authorized: authorized,
         });
+        document.getElementById("selected_account").value = selectedAccount;
         if (authorized) {
             updateAuthButtons(false, true);
         } else {
@@ -125,8 +142,8 @@ async function handleSelectChange(event) {
 
 async function updateUsernames() {
     try {
-        console.log("updating usernames");
         const url = "https://webmail." + local_domain + "/oauth/usernames/";
+        console.log("fetching usernames from:", url);
         const response = await fetch(url);
         const selectTitle = document.getElementById("username_title");
         const selectElement = document.getElementById("username_select");
@@ -134,6 +151,9 @@ async function updateUsernames() {
         // usernames = {};
         console.log("usernames:", usernames);
 
+        let first = true;
+        let firstLocal = "";
+        let firstGmail = "";
         let found = false;
         for (const [localAddress, gmailAddress] of Object.entries(usernames)) {
             found = true;
@@ -146,11 +166,19 @@ async function updateUsernames() {
             }
             console.log("appending: ", option);
             selectElement.appendChild(option);
+            if (first) {
+                first = false;
+                firstLocal = localAddress;
+                firstGmail = gmailAddress;
+            }
         }
 
         if (found) {
             selectTitle.textContent = "Select a local account:";
             showElement("username_select");
+            if (usernames.length == 1) {
+                await updateActionButtons(firstLocal, firstGmail);
+            }
         } else {
             hideElement("username_select");
             selectTitle.textContent = "No local accounts have a 'gmail.' prefix";
